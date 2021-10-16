@@ -1,0 +1,79 @@
+# Problem 1
+def mergeSort(nums):
+    if len(nums) > 1:
+        leftArr = nums[:len(nums)//2]
+        mergeSort(leftArr)
+        rightArr = nums[len(nums)//2:]
+        mergeSort(rightArr)
+        nums.clear()
+
+        j = k = 0
+        while j < len(leftArr) and k < len(rightArr):
+            if leftArr[j] <= rightArr[k]:
+                nums.append(leftArr[j])
+                j+=1
+            else:
+                nums.append(rightArr[k])
+                k+=1
+        nums += leftArr[j:]
+        nums += rightArr[k:]
+
+def findTarget(numArr, target):
+    # target과 일치하는 숫자가 있을 때
+    for i in range(len(numArr)):
+        if numArr[i] == target:
+            return i+1
+    # target과 일치하는 숫자가 없을 때
+    for i in range(len(numArr)):
+        if numArr[i] > target:
+            return i+1
+    return len(numArr)+1
+            
+        
+def solve(nums, target):
+    mergeSort(nums)
+    sortedArr = nums
+    print(findTarget(sortedArr, target))
+    
+# test
+nums = list(map(int, input().split()))
+
+print(nums)
+
+print("target = ", end= " ")
+target = int(input())
+
+solve(nums, target)
+
+# Problem 2
+def rotateMat(mat):
+    if len(mat) % 2 == 0:
+        for i in range(len(mat)//2):
+            for j in range(len(mat[i])):
+                key = mat[len(mat)-i-1][len(mat)-j-1]
+                mat[len(mat)-i-1][len(mat)-j-1] = mat[i][j]
+                mat[i][j] = key
+    else:
+        i = 0
+        while i < len(mat)//2:
+            for j in range(len(mat[i])):
+                key = mat[len(mat)-i-1][len(mat)-j-1]
+                mat[len(mat)-i-1][len(mat)-j-1] = mat[i][j]
+                mat[i][j] = key
+            i+=1
+        # 가운데 row의 경우
+        for j in range(len(mat[i])//2):
+            key = mat[i][len(mat)-j-1]
+            mat[i][len(mat)-j-1] = mat[i][j]
+            mat[i][j] = key
+
+#test
+print("몇 곱하기 몇 행렬인가?", end = " ")
+mat = []
+n = int(input())
+for i in range(n):
+    mat.append(list(map(int, input().split())))
+rotateMat(mat)
+print("Output:", mat)
+
+# Problem 3
